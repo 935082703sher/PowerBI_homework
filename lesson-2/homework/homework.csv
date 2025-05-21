@@ -1,0 +1,68 @@
+1.List three data sources Power BI can connect to.
+  Microsoft Excel – Power BI can import data directly from Excel spreadsheets (.xlsx, .xls).
+  SQL Server – It can connect to Microsoft SQL Server databases for real-time or imported data analysis.
+  SharePoint – Power BI can access data stored in SharePoint lists or document libraries.
+2.What is the first step to import data into Power BI Desktop?
+  in home page  get data and choose file type that we want 
+3.How do you refresh imported data in Power BI?
+  in home page we should click refresh 
+4.What file formats can Power BI import directly? (Name two.)
+  Xlsx, csv
+5.What does the "Navigator" window show after selecting a data source?
+  what changes have been done 
+6.Import Sales_Data.csv and load only the "Product" and "Price" columns.
+  power query editor home page and choose columns 
+7.How would you change OrderDate to a date format during import?
+  power query editor click the left of column name and choose date or date/time
+8.What is the difference between "Load" and "Transform Data" in the import dialog?
+  load does not change anything but in transform we can change the type of table or only get the wanted columns or change the values in we can see the statistics of table a lot of things can be done 
+  Clean the data (remove columns, filter rows, rename fields).
+  Apply transformations (merge tables, change data types, pivot/unpivot)
+9.Why might you see an error when connecting to a SQL database? (Name one reason.)
+  database path may be wrong or data may be in local computer
+10.How do you replace a data source after importing it?
+  Data Source Settings
+11.Write the M-code to import only rows where Quantity > 1.
+  = let
+    Source = Csv.Document(File.Contents("C:\Users\ITPARK\Documents\Downloads\Sales_Data.csv"),[Delimiter=",", Columns=5, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"OrderID", type text}, {"Product", type text}, {"Quantity", Int64.Type}, {"Price", Currency.Type}, {"OrderDate", type date}}),
+    #"Filtered Rows" = Table.SelectRows(#"Changed Type", each [Quantity] > 1)
+in
+    #"Filtered Rows"
+12.How would you change the data source if Sales_Data.csv changed?
+  data source setting and put new path
+13.Troubleshoot: Your CSV import fails due to a "mixed data type" error—how do you fix it?
+  = let
+    // Load and decompress sample data
+    Source = Table.FromRows(
+        Json.Document(
+            Binary.Decompress(
+                Binary.FromText("i45WMlTSUSpVitWJVjICsnLArAIgy1QpNhYA", BinaryEncoding.Base64),
+                Compression.Deflate
+            )
+        ),
+        let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t, Column2 = _t]
+    ),
+
+    // Change Column1 to number and Column2 to text
+    #"Changed Type" = Table.TransformColumnTypes(Source, {{"Column1", Int64.Type}, {"Column2", type text}}),
+
+    // Replace specific values in Column1
+    #"Replaced Value" = Table.ReplaceValue(#"Changed Type", 3, 0, Replacer.ReplaceValue, {"Column1"}),
+    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value", 0, 0, Replacer.ReplaceValue, {"Column1"}),
+
+    // Add a clean numeric column from Column1, fallback to 0 on error
+    #"Added Custom Column" = Table.AddColumn(#"Replaced Value1", "CleanColumn1", each try Number.FromText(Text.From([Column1])) otherwise 0)
+in
+    #"Added Custom Column"
+14.Connect to a live SQL database with parameters (e.g., filter by year).
+      get data sql data base put sql server name advanced option write sql statement
+      
+15.How would you automate data imports using Power BI and Power Automate?
+      Go to: https://app.powerbi.com
+
+Open a report or workspace.
+
+In the top menu, click “Automate” > “Create a Power Automate flow”
+(this appears only if the Power Automate visual or connector is enabled)
