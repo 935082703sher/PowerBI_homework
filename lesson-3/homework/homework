@@ -1,0 +1,23 @@
+What is the purpose of the "Applied Steps" pane in Power Query?
+  View the result at that stage.
+  Edit the transformation (e.g., change a filter or column name).
+  Delete or reorder steps to change the logic of your data prep.
+How do you remove duplicate rows in Power Query?
+  Go to the Home tab > Click Remove Rows > Choose Remove Duplicates.
+What does the "Filter" icon do in Power Query?
+  The filter icon appears next to each column header.
+  Clicking it lets you choose which values to keep or remove from that column.
+How would you rename a column from "CustID" to "CustomerID"?
+  left click and  search rename
+What happens if you click "Close & Apply" in Power Query?
+  changes are stored 
+Remove all rows where Quantity is less than 2.
+Split the OrderDate column into separate "Year," "Month," and "Day" columns.
+Replace all "Mouse" entries in the Product column with "Computer Mouse."
+Sort the table by OrderDate (newest first).
+How would you handle null values in the Price column?
+Write custom M-code to add a column calculating TotalSpent = Quantity * Price.
+Group the table by CustID to show total spending per customer.
+Fix inconsistent date formats (e.g., 01/10/2023 vs. 2023-01-10) in OrderDate.
+Create a conditional column: Label orders as "High Value" if Price > 100.
+Optimize the query to reduce refresh time (e.g., remove unused columns early).
