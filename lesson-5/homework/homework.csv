@@ -1,0 +1,115 @@
+1. What is a Primary Key in a Table?
+A primary key is a column (or combination of columns) that uniquely identifies each row in a table.
+➡ In Power BI, it's typically used in dimension tables to link to fact tables.
+
+2. Two Types of Table Relationships in Power BI
+
+One-to-many (1:*): Most common, e.g., one Customer → many Sales.
+
+
+Many-to-many (:): Used when neither table has unique values for join columns.
+
+
+3. How to Create a Relationship Between Two Tables
+
+Go to Model view.
+
+
+Drag the column (e.g., CustomerID) from one table to the matching column in the other.
+
+
+Set the cardinality and cross-filter direction.
+
+
+4. What is a Star Schema?
+A star schema is a data model with:
+
+A central fact table (e.g., Sales),
+
+
+Connected to multiple dimension tables (e.g., Customers, Products, Dates),
+
+
+Shaped like a star 🌟.
+
+
+5. Which Table is Typically the Fact Table in a Sales Dataset?
+✅ Sales is the fact table — it holds transactions (quantities, revenue, etc.).
+
+6. Link Sales.csv to Customers.csv using CustomerID (One-to-Many)
+
+Make sure:
+
+
+CustomerID in Customers is unique → one side.
+
+
+CustomerID in Sales has duplicates → many side.
+
+
+Create a relationship:
+Customers[CustomerID] → Sales[CustomerID]
+(One-to-Many, Single Direction).
+
+
+7. Why is ProductID in Sales.csv a Foreign Key?
+Because it references the ProductID in the Products table, linking each sale to product details.
+➡ It's a foreign key in Sales pointing to the primary key in Products.
+9. Why Star Schema Improves Performance
+
+Relationships are simple (1:*), enabling efficient DAX calculations.
+
+
+Minimizes joins, keeping the model clear and fast.
+
+
+Encourages reusability of dimensions and consistent filtering.
+
+11. Optimize a Model with Circular Relationships
+Circular relationships cause ambiguity.
+✅ Fixes:
+
+Break the loop by removing unnecessary relationships.
+
+
+Replace physical relationships with DAX using TREATAS(), LOOKUPVALUE(), or measures instead of columns.
+
+
+Consider adding a bridge table.
+
+
+12. Create Role-Playing Dimension for OrderDate and ShipDate
+
+Load the Date table once.
+
+
+Duplicate it (right-click → Duplicate) for each role (e.g., Order Date, Ship Date).
+
+
+Relate each copy to the appropriate column in the fact table.
+
+
+Use user-friendly names like OrderDateTable, ShipDateTable.
+
+
+13. Handle Many-to-Many Between Customers and Products
+If both tables are related via Sales:
+
+Use the Sales table as a bridge.
+
+
+Avoid direct many-to-many unless necessary.
+
+
+If required, use composite models or bridge tables to manage relationships.
+
+
+14. Use Bidirectional Filtering Sparingly – When is it Appropriate?
+✅ Only when:
+
+You need filters to flow both ways (e.g., slicers affecting lookup and fact tables).
+
+
+You're modeling many-to-many relationships with intermediate tables.
+⚠ Overuse can cause performance issues or ambiguous relationships.
+
