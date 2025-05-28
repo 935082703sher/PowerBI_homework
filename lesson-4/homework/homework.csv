@@ -66,28 +66,7 @@ This fills each null with the previous non-null value.
 10. Extract Domain from Email
 Use Add Column > Extract > Text After Delimiter.
 
-Delimiter: @.
 
-Or use this custom column formula:
-
-m
-Копировать
-Редактировать
-Text.AfterDelimiter([Email], "@")
-11. M Code: Merge Dynamically Based on JoinType Parameter
-Assuming JoinType is a text parameter:
-
-m
-Копировать
-Редактировать
-let
-    Orders = ...,
-    Customers = ...,
-    JoinType = "Inner",  // Can be changed to "LeftOuter", etc.
-    JoinFunction = Record.ToFunction(Record.Field(Table.JoinKinds, JoinType)),
-    Merged = Table.NestedJoin(Orders, {"CustID"}, Customers, {"CustID"}, "NewTable", JoinFunction)
-in
-    Merged
 12. Unpivot Columns like Jan_Sales, Feb_Sales to Month/Sales
 Select the sales columns (e.g., Jan_Sales, Feb_Sales).
 
