@@ -1,0 +1,97 @@
+1. Merge vs Append
+Merge: Combines columns from two queries based on a common key (like SQL JOIN). You choose join type (Inner, Left Outer, etc.).
+
+Append: Stacks rows from two or more queries with identical or compatible column structures (like UNION in SQL).
+
+2. Split Full Name into First and Last Name
+Select the Full Name column.
+
+Use Home > Split Column > By Delimiter.
+
+Choose space ( ) as the delimiter.
+
+Result: Two columns (e.g., Full Name.1 as First Name, Full Name.2 as Last Name).
+
+3. Pivot Columns Use
+Converts row values in a column into column headers.
+
+Common use: turn transactions into a summary table (e.g., Products as columns, quantities as values).
+
+4. Undo a Step
+Go to Applied Steps in the Query Settings pane.
+
+Right-click the step to remove it or use the X icon to delete it.
+
+5. Reference vs Duplicate
+Duplicate: Creates a copy of the entire query and its current results.
+
+Reference: Creates a new query based on the output of an existing query—linked dynamically.
+
+6. Merge Orders.csv and Customers.xlsx on CustID (Inner Join)
+Load both files.
+
+Use Home > Merge Queries.
+
+Select CustID in both.
+
+Choose Join Kind: Inner.
+
+Expand fields from the Customers table as needed.
+
+7. Pivot Product Column to Show Total Quantity per Product
+Select the Product column.
+
+Go to Transform > Pivot Column.
+
+Set Values Column to Quantity.
+
+Use Sum as aggregation.
+
+8. Append Orders_Jan.csv + Orders_Feb.csv
+Load both queries.
+
+Go to Home > Append Queries.
+
+Choose Two Tables, select Orders_Jan and Orders_Feb.
+
+Confirm to create a combined table.
+
+9. Use Fill Down to Replace Nulls in Email Column
+Select Email column.
+
+Go to Transform > Fill > Down.
+
+This fills each null with the previous non-null value.
+
+10. Extract Domain from Email
+Use Add Column > Extract > Text After Delimiter.
+
+Delimiter: @.
+
+Or use this custom column formula:
+
+m
+Копировать
+Редактировать
+Text.AfterDelimiter([Email], "@")
+11. M Code: Merge Dynamically Based on JoinType Parameter
+Assuming JoinType is a text parameter:
+
+m
+Копировать
+Редактировать
+let
+    Orders = ...,
+    Customers = ...,
+    JoinType = "Inner",  // Can be changed to "LeftOuter", etc.
+    JoinFunction = Record.ToFunction(Record.Field(Table.JoinKinds, JoinType)),
+    Merged = Table.NestedJoin(Orders, {"CustID"}, Customers, {"CustID"}, "NewTable", JoinFunction)
+in
+    Merged
+12. Unpivot Columns like Jan_Sales, Feb_Sales to Month/Sales
+Select the sales columns (e.g., Jan_Sales, Feb_Sales).
+
+Go to Transform > Unpivot Columns.
+
+Rename Attribute to Month, Value to Sales.
+
